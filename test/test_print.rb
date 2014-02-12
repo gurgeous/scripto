@@ -11,14 +11,14 @@ class TestPrint < Minitest::Test
 
   def test_quiet
     assert_silent { Scripto.vbanner "gub" }
-    assert_silent { Scripto.vprintf "gub" }
+    assert_silent { Scripto.vprintf("gub %d", 123) }
     assert_silent { Scripto.vputs "gub" }
   end
 
   def test_loud
     Scripto.verbose!
     assert_output(nil, /gub/) { Scripto.vbanner "gub" }
-    assert_output(nil, /gub/) { Scripto.vprintf "gub" }
+    assert_output(nil, /gub/) { Scripto.vprintf("zub %s", "gub") }
     assert_output(nil, /gub/) { Scripto.vputs "gub" }
   end
 
