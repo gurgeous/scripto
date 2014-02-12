@@ -15,30 +15,30 @@ module Scripto
       @verbose = true
     end
 
-    def vbanner(s = nil)
-      banner(s) if verbose?
+    def vbanner(str = nil)
+      banner(str) if verbose?
     end
 
-    def vputs(s = nil)
-      $stderr.puts(s) if verbose?
+    def vputs(str = nil)
+      $stderr.puts(str) if verbose?
     end
 
-    def vprintf(s, *args)
-      $stderr.printf(s, *args) if verbose?
+    def vprintf(str, *args)
+      $stderr.printf(str, *args) if verbose?
     end
 
-    def banner(s, color: GREEN)
+    def banner(str, color: GREEN)
       now = Time.new.strftime("%H:%M:%S")
-      s = "#{s} ".ljust(72, " ")
+      s = "#{str} ".ljust(72, " ")
       $stderr.puts "#{color}[#{now}] #{s}#{RESET}"
     end
 
-    def warning(msg)
-      banner("Warning: #{msg}", color: YELLOW)
+    def warning(str)
+      banner("Warning: #{str}", color: YELLOW)
     end
 
-    def fatal(msg)
-      banner(msg, color: RED)
+    def fatal(str)
+      banner(str, color: RED)
       exit(1)
     end
   end

@@ -23,8 +23,8 @@ module Scripto
       end
     end
 
-    def md5_string(s)
-      Digest::MD5.hexdigest(s.to_s)
+    def md5_string(str)
+      Digest::MD5.hexdigest(str.to_s)
     end
 
     def prompt?(question)
