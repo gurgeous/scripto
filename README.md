@@ -4,8 +4,10 @@ Scripto is a framework for writing command line applications. It fills in many o
 
 * **print to $stderr** - Colored banners and a verbose mode to make your scripts louder.
 * **file operations** - Mkdir, cp, mv, ln. These operations can take care of common edge cases, like creating the target directory before copying a file.
-* **csv** - Read and write CSV files from hashes, Structs, or OpenStructs.
 * **run commands** - Run external commands and raise errors on failure.
+* **csv** - Read and write CSV files from hashes, Structs, or OpenStructs.
+
+Rdoc at [rdoc.info](http://rdoc.info/github/gurgeous/scripto/master/frames). Thanks!
 
 ## Getting Started
 
