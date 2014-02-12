@@ -10,5 +10,7 @@ task default: :test
 RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = "rdoc"
   rdoc.title = "scripto #{Scripto::VERSION}"
+  rdoc.main = "README.md"
   rdoc.rdoc_files.include("lib/**/*.rb")
+  rdoc.rdoc_files.include("README.md")
 end
