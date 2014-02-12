@@ -7,7 +7,7 @@ Scripto is a framework for writing command line applications. It fills in many o
 * **run commands** - Run external commands and raise errors on failure.
 * **csv** - Read and write CSV files from hashes, Structs, or OpenStructs.
 
-Rdoc at [rdoc.info](http://rdoc.info/github/gurgeous/scripto/master/frames). Thanks!
+Rdoc at [rdoc.info](http://rdoc.info/github/gurgeous/scripto/). Thanks!
 
 ## Getting Started
 
