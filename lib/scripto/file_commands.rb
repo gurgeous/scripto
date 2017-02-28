@@ -55,7 +55,7 @@ module Scripto
     # directory had to be created. This is useful with verbose?, to get an
     # exact changelog.
     def mkdir_if_necessary(dir, owner: nil, mode: nil)
-      if !(File.exists?(dir) || File.symlink?(dir))
+      if !(File.exist?(dir) || File.symlink?(dir))
         mkdir(dir, owner: owner, mode: mode)
         true
       end
@@ -65,7 +65,7 @@ module Scripto
     # true if the file had to be copied. This is useful with verbose?, to get
     # an exact changelog.
     def cp_if_necessary(src, dst, mkdir: false, owner: nil, mode: nil)
-      if !(File.exists?(dst) && FileUtils.compare_file(src, dst))
+      if !(File.exist?(dst) && FileUtils.compare_file(src, dst))
         cp(src, dst, mkdir: mkdir, owner: owner, mode: mode)
         true
       end
@@ -90,7 +90,7 @@ module Scripto
     # Runs #rm, but ONLY if +file+ exists. Return true if the file had to be
     # removed. This is useful with verbose?, to get an exact changelog.
     def rm_if_necessary(file)
-      if File.exists?(file)
+      if File.exist?(file)
         rm(file)
         true
       end

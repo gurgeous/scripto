@@ -61,7 +61,7 @@ class TestFile < Minitest::Test
 
   def test_rm
     Scripto.rm(SRC)
-    assert(!File.exists?(SRC))
+    assert(!File.exist?(SRC))
     Scripto.rm("this_file_doesnt_exist") # shouldn't complain
   end
 

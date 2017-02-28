@@ -2,7 +2,7 @@ require "English"
 require "shellwords"
 
 module Scripto
-	module RunCommands
+  module RunCommands
     # The error thrown by #run, #run_capture and #run_quietly on failure.
     class Error < StandardError
     end
