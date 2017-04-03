@@ -40,9 +40,8 @@ class TestCsv < Minitest::Test
   def test_atomic
     magic = "can't touch this"
     File.write(FILE, magic)
-    begin
-      Util.csv_write(TMP, rows, cols: %i(bad_column))
-    rescue
+    assert_raises do
+      csv_write(TMP, rows, cols: %i(bad_column))
     end
     assert_equal(magic, File.read(FILE))
   end

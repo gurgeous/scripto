@@ -23,8 +23,8 @@ class TestFile < Minitest::Test
   end
 
   def test_mkdir_mode
-    Scripto.mkdir(DIR, mode: 0644)
-    assert_equal(0644, File.stat(DIR).mode & 0644)
+    Scripto.mkdir(DIR, mode: 0o644)
+    assert_equal(0o644, File.stat(DIR).mode & 0o644)
   end
 
   def test_cp
@@ -33,8 +33,8 @@ class TestFile < Minitest::Test
   end
 
   def test_cp_mode
-    Scripto.cp(SRC, DST, mode: 0644)
-    assert_equal(0644, File.stat(DST).mode & 0644)
+    Scripto.cp(SRC, DST, mode: 0o644)
+    assert_equal(0o644, File.stat(DST).mode & 0o644)
   end
 
   def test_cp_mkdir
@@ -103,8 +103,8 @@ class TestFile < Minitest::Test
   end
 
   def test_chmod
-    Scripto.chmod(SRC, 0644)
-    assert_equal(0644, File.stat(SRC).mode & 0644)
+    Scripto.chmod(SRC, 0o644)
+    assert_equal(0o644, File.stat(SRC).mode & 0o644)
   end
 
   def test_rm_and_mkdir
@@ -112,14 +112,14 @@ class TestFile < Minitest::Test
     File.write("#{DIR}/file", "this is a test")
     assert Dir["#{DIR}/*"].length == 1
     Scripto.rm_and_mkdir(DIR)
-    assert Dir["#{DIR}/*"].length == 0
+    assert Dir["#{DIR}/*"].empty?
   end
 
   def test_copy_metadata
-    File.chmod(0644, SRC)
+    File.chmod(0o644, SRC)
     File.utime(1234, 5678, SRC)
     Scripto.copy_metadata(SRC, SRC2)
-    assert_equal(0644, File.stat(SRC2).mode & 0644)
+    assert_equal(0o644, File.stat(SRC2).mode & 0o644)
     assert_equal(1234, File.stat(SRC2).atime.to_i)
     assert_equal(5678, File.stat(SRC2).mtime.to_i)
   end
@@ -189,7 +189,7 @@ class TestFile < Minitest::Test
     @root
   end
 
-  def assert_fu_output(stdout = nil, stderr = nil, &block)
+  def assert_fu_output(stdout = nil, stderr = nil)
     Scripto.verbose!
     assert_output(stdout, stderr) do
       # FileUtils squirrels this away so we have to set it manually

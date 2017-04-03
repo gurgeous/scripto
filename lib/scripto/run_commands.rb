@@ -34,12 +34,10 @@ module Scripto
 
     # Returns true if the command succeeds. See #run for details.
     def run_succeeds?(command, args = nil)
-      begin
-        run_quietly(command, args)
-        true
-      rescue Error
-        false
-      end
+      run_quietly(command, args)
+      true
+    rescue Error
+      false
     end
 
     # Returns true if the command fails. See #run for details.
@@ -52,18 +50,18 @@ module Scripto
       Shellwords.escape(str)
     end
 
-    protected
-
     # :nodoc:
     class CommandLine
       attr_accessor :command, :args
 
       def initialize(command, args)
         self.command = command
-        self.args = if args
-          args.map(&:to_s)
-        else
-          [ ]
+        self.args = begin
+          if args
+            args.map(&:to_s)
+          else
+            [ ]
+          end
         end
       end
 
@@ -90,7 +88,7 @@ module Scripto
       end
 
       def to_s
-        if args.length > 0
+        if !args.empty?
           escaped = args.map { |i| Shellwords.escape(i) }
           "#{command} #{escaped.join(" ")}"
         else

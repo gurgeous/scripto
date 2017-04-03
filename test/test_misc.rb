@@ -40,7 +40,7 @@ class TestMisc < Minitest::Test
 
   protected
 
-  def with_fake_stdin(str, &block)
+  def with_fake_stdin(str)
     old_stdin = $stdin
     begin
       $stdin = StringIO.new(str)

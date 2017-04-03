@@ -36,13 +36,11 @@ module Scripto
     # Like ln -sf +src+ +dst. The command will be printed out if
     # verbose?.
     def ln(src, dst)
-      begin
-        FileUtils.ln_sf(src, dst, verbose: verbose?)
-      rescue Errno::EEXIST => e
-        # It's a race - this can occur because ln_sf removes the old
-        # dst, then creates the symlink. Raise if they don't match.
-        raise e if !(File.symlink?(dst) && src == File.readlink(dst))
-      end
+      FileUtils.ln_sf(src, dst, verbose: verbose?)
+    rescue Errno::EEXIST => e
+      # It's a race - this can occur because ln_sf removes the old
+      # dst, then creates the symlink. Raise if they don't match.
+      raise e if !(File.symlink?(dst) && src == File.readlink(dst))
     end
 
     # Like rm -f +file+. Like all file commands, the operation will be printed
@@ -55,45 +53,39 @@ module Scripto
     # directory had to be created. This is useful with verbose?, to get an
     # exact changelog.
     def mkdir_if_necessary(dir, owner: nil, mode: nil)
-      if !(File.exist?(dir) || File.symlink?(dir))
-        mkdir(dir, owner: owner, mode: mode)
-        true
-      end
+      return if File.exist?(dir) || File.symlink?(dir)
+      mkdir(dir, owner: owner, mode: mode)
+      true
     end
 
     # Runs #cp, but ONLY if +dst+ doesn't exist or differs from +src+. Returns
     # true if the file had to be copied. This is useful with verbose?, to get
     # an exact changelog.
     def cp_if_necessary(src, dst, mkdir: false, owner: nil, mode: nil)
-      if !(File.exist?(dst) && FileUtils.compare_file(src, dst))
-        cp(src, dst, mkdir: mkdir, owner: owner, mode: mode)
-        true
-      end
+      return if File.exist?(dst) && FileUtils.compare_file(src, dst)
+      cp(src, dst, mkdir: mkdir, owner: owner, mode: mode)
+      true
     end
 
     # Runs #ln, but ONLY if +dst+ isn't a symlink or differs from +src+.
     # Returns true if the file had to be symlinked. This is useful with
     # verbose?, to get an exact changelog.
     def ln_if_necessary(src, dst)
-      ln = if !File.symlink?(dst)
-        true
-      elsif File.readlink(dst) != src
+      if File.symlink?(dst)
+        return if src == File.readlink(dst)
         rm(dst)
-        true
       end
-      if ln
-        ln(src, dst)
-        true
-      end
+
+      ln(src, dst)
+      true
     end
 
     # Runs #rm, but ONLY if +file+ exists. Return true if the file had to be
     # removed. This is useful with verbose?, to get an exact changelog.
     def rm_if_necessary(file)
-      if File.exist?(file)
-        rm(file)
-        true
-      end
+      return if !File.exist?(file)
+      rm(file)
+      true
     end
 
     # Like chown user:user file. Like all file commands, the operation will be printed
@@ -103,17 +95,15 @@ module Scripto
       @scripto_uids ||= {}
       @scripto_uids[user] ||= Etc.getpwnam(user).uid
       uid = @scripto_uids[user]
-      if File.stat(file).uid != uid
-        FileUtils.chown(uid, uid, file, verbose: verbose?)
-      end
+      return if File.stat(file).uid == uid
+      FileUtils.chown(uid, uid, file, verbose: verbose?)
     end
 
     # Like chmod mode file. Like all file commands, the operation will be
     # printed out if verbose?.
     def chmod(file, mode)
-      if File.stat(file).mode != mode
-        FileUtils.chmod(mode, file, verbose: verbose?)
-      end
+      return if File.stat(file).mode == mode
+      FileUtils.chmod(mode, file, verbose: verbose?)
     end
 
     # Like rm -rf && mkdir -p. Like all file commands, the operation will be

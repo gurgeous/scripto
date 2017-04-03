@@ -84,7 +84,7 @@ class TestRun < Minitest::Test
 
   protected
 
-  def assert_cp(&block)
+  def assert_cp
     File.unlink(DST) if File.exist?(DST)
     yield
     assert_equal(File.read(SRC), File.read(DST))

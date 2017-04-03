@@ -6,12 +6,14 @@ module Scripto
     # Read a csv from +path+. Returns an array of Structs, using the keys from
     # the csv header row.
     def csv_read(path)
-      lines = if path =~ /\.gz$/
-        Zlib::GzipReader.open(path) do |f|
-          CSV.new(f).read
+      lines = begin
+        if path =~ /\.gz$/
+          Zlib::GzipReader.open(path) do |f|
+            CSV.new(f).read
+          end
+        else
+          CSV.read(path)
         end
-      else
-        CSV.read(path)
       end
       keys = lines.shift.map(&:to_sym)
       klass = Struct.new(*keys)
@@ -23,13 +25,11 @@ module Scripto
     # first row are used as the csv header. If +cols+ is specified, it will be
     # used as the column keys instead.
     def csv_write(path, rows, cols: nil)
-      begin
-        tmp = "/tmp/_scripto_csv.csv"
-        CSV.open(tmp, "wb") { |f| csv_write0(f, rows, cols: cols) }
-        mv(tmp, path)
-      ensure
-        rm_if_necessary(tmp)
-      end
+      tmp = "/tmp/_scripto_csv.csv"
+      CSV.open(tmp, "wb") { |f| csv_write0(f, rows, cols: cols) }
+      mv(tmp, path)
+    ensure
+      rm_if_necessary(tmp)
     end
 
     # Write +rows+ to $stdout as a csv. Similar to csv_write.
