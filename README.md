@@ -1,5 +1,7 @@
 # Scripto
 
+[![Build Status](https://travis-ci.org/gurgeous/scripto.svg?branch=master)](https://travis-ci.org/gurgeous/scripto)
+
 Scripto is a framework for writing command line applications. It fills in many of the blanks that Ruby's standard library is missing:
 
 * **print to $stderr** - Colored banners and a verbose mode to make your scripts louder.
