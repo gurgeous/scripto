@@ -147,6 +147,26 @@ class TestFile < Minitest::Test
   end
 
   #
+  # atomic
+  #
+
+  def test_atomic
+    Scripto.atomic_write(SRC) { |f| f.write("xyzzy") }
+    assert_equal "xyzzy", File.read(SRC)
+  end
+
+  def test_atomic_fail
+    assert_raises do
+      Scripto.atomic_write(SRC) do |f|
+        f.write("xyzzy")
+        raise "uh oh"
+      end
+    end
+    # SRC should be unscathed
+    assert_equal "something", File.read(SRC)
+  end
+
+  #
   # verbosity
   #
 

@@ -1,4 +1,5 @@
 require "csv"
+require "tempfile"
 require "zlib"
 
 module Scripto
@@ -25,11 +26,9 @@ module Scripto
     # first row are used as the csv header. If +cols+ is specified, it will be
     # used as the column keys instead.
     def csv_write(path, rows, cols: nil)
-      tmp = "/tmp/_scripto_csv.csv"
-      CSV.open(tmp, "wb") { |f| csv_write0(f, rows, cols: cols) }
-      mv(tmp, path)
-    ensure
-      rm_if_necessary(tmp)
+      atomic_write(path) do |tmp|
+        CSV.open(tmp.path, "wb") { |f| csv_write0(f, rows, cols: cols) }
+      end
     end
 
     # Write +rows+ to $stdout as a csv. Similar to csv_write.
