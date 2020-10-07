@@ -1,5 +1,5 @@
-require "etc"
-require "fileutils"
+require 'etc'
+require 'fileutils'
 
 module Scripto
   module FileCommands
@@ -54,6 +54,7 @@ module Scripto
     # exact changelog.
     def mkdir_if_necessary(dir, owner: nil, mode: nil)
       return if File.exist?(dir) || File.symlink?(dir)
+
       mkdir(dir, owner: owner, mode: mode)
       true
     end
@@ -63,6 +64,7 @@ module Scripto
     # an exact changelog.
     def cp_if_necessary(src, dst, mkdir: false, owner: nil, mode: nil)
       return if File.exist?(dst) && FileUtils.compare_file(src, dst)
+
       cp(src, dst, mkdir: mkdir, owner: owner, mode: mode)
       true
     end
@@ -73,6 +75,7 @@ module Scripto
     def ln_if_necessary(src, dst)
       if File.symlink?(dst)
         return if src == File.readlink(dst)
+
         rm(dst)
       end
 
@@ -84,6 +87,7 @@ module Scripto
     # removed. This is useful with verbose?, to get an exact changelog.
     def rm_if_necessary(file)
       return if !File.exist?(file)
+
       rm(file)
       true
     end
@@ -96,6 +100,7 @@ module Scripto
       @scripto_uids[user] ||= Etc.getpwnam(user).uid
       uid = @scripto_uids[user]
       return if File.stat(file).uid == uid
+
       FileUtils.chown(uid, uid, file, verbose: verbose?)
     end
 
@@ -103,13 +108,15 @@ module Scripto
     # printed out if verbose?.
     def chmod(file, mode)
       return if File.stat(file).mode == mode
+
       FileUtils.chmod(mode, file, verbose: verbose?)
     end
 
     # Like rm -rf && mkdir -p. Like all file commands, the operation will be
     # printed out if verbose?.
     def rm_and_mkdir(dir)
-      raise "don't do this" if dir == ""
+      raise "don't do this" if dir == ''
+
       FileUtils.rm_rf(dir, verbose: verbose?)
       mkdir(dir)
     end

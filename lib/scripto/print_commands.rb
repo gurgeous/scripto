@@ -1,9 +1,9 @@
 module Scripto
   module PrintCommands
-    RESET   = "\e[0m"
-    GREEN   = "\e[1;37;42m"
-    YELLOW  = "\e[1;37;43m"
-    RED     = "\e[1;37;41m"
+    RESET   = "\e[0m".freeze
+    GREEN   = "\e[1;37;42m".freeze
+    YELLOW  = "\e[1;37;43m".freeze
+    RED     = "\e[1;37;41m".freeze
 
     attr_accessor :verbose
 
@@ -35,8 +35,8 @@ module Scripto
 
     # Print a colored banner to $stderr in green.
     def banner(str, color: GREEN)
-      now = Time.new.strftime("%H:%M:%S")
-      s = "#{str} ".ljust(72, " ")
+      now = Time.new.strftime('%H:%M:%S')
+      s = "#{str} ".ljust(72, ' ')
       $stderr.puts "#{color}[#{now}] #{s}#{RESET}"
     end
 

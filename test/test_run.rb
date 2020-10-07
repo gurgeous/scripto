@@ -1,18 +1,18 @@
-require_relative "helper"
+require_relative 'helper'
 
 class TestRun < Minitest::Test
   include Helper
 
-  SUCCEEDS = "echo gub"
-  FAILS = "cat scripto_bogus_file 2> /dev/null"
-  BAD_COMMAND = "this_command_doesnt_exist"
-  SRC = "_scripto_src"
-  DST = "_scripto with spaces"
-  ARGS = [ "-f", SRC, DST ]
+  SUCCEEDS = 'echo gub'.freeze
+  FAILS = 'cat scripto_bogus_file 2> /dev/null'.freeze
+  BAD_COMMAND = 'this_command_doesnt_exist'.freeze
+  SRC = '_scripto_src'.freeze
+  DST = '_scripto with spaces'.freeze
+  ARGS = [ '-f', SRC, DST ].freeze
 
   def setup
     super
-    File.write(SRC, "something")
+    File.write(SRC, 'something')
   end
 
   #
@@ -21,8 +21,8 @@ class TestRun < Minitest::Test
 
   def test_run
     Scripto.run("#{SUCCEEDS} > #{SRC}")
-    assert_equal("gub", File.read(SRC).strip)
-    assert("gub", Scripto.run_capture(SUCCEEDS))
+    assert_equal('gub', File.read(SRC).strip)
+    assert('gub', Scripto.run_capture(SUCCEEDS))
     Scripto.run_quietly(SUCCEEDS)
   end
 
@@ -33,8 +33,8 @@ class TestRun < Minitest::Test
   end
 
   def test_shellescape
-    assert_equal("gub",       Scripto.shellescape("gub"))
-    assert_equal("gub\\ zub", Scripto.shellescape("gub zub"))
+    assert_equal('gub',       Scripto.shellescape('gub'))
+    assert_equal('gub\\ zub', Scripto.shellescape('gub zub'))
   end
 
   # verbosity
@@ -60,14 +60,14 @@ class TestRun < Minitest::Test
 
   def test_run_args
     # make sure SRC is copied to DST in all cases
-    assert_cp { Scripto.run("cp", ARGS) }
-    assert_cp { Scripto.run_quietly("cp", ARGS) }
-    assert_cp { assert_succeeds("cp", ARGS) }
+    assert_cp { Scripto.run('cp', ARGS) }
+    assert_cp { Scripto.run_quietly('cp', ARGS) }
+    assert_cp { assert_succeeds('cp', ARGS) }
   end
 
   def test_capture_escaping
     tricky = "\"'!tricky!'\""
-    assert_equal("#{tricky} #{tricky}\n", Scripto.run_capture("echo", [tricky, tricky]))
+    assert_equal("#{tricky} #{tricky}\n", Scripto.run_capture('echo', [ tricky, tricky ]))
   end
 
   def test_args_succeeds_fails
@@ -77,8 +77,8 @@ class TestRun < Minitest::Test
   # is output escaped properly with verbose?
   def test_args_verbose
     Scripto.verbose!
-    assert_output(nil, "cp -f #{SRC} #{DST.gsub(" ", "\\ ")}\n") do
-      Scripto.run("cp", ARGS)
+    assert_output(nil, "cp -f #{SRC} #{DST.gsub(' ', '\\ ')}\n") do
+      Scripto.run('cp', ARGS)
     end
   end
 

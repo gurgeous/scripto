@@ -1,5 +1,5 @@
-require "English"
-require "shellwords"
+require 'english'
+require 'shellwords'
 
 module Scripto
   module RunCommands
@@ -60,7 +60,7 @@ module Scripto
           if args
             args.map(&:to_s)
           else
-            [ ]
+            []
           end
         end
       end
@@ -72,7 +72,7 @@ module Scripto
 
       def capture
         begin
-          captured = `#{to_s}`
+          captured = `#{self}`
         rescue Errno::ENOENT
           raise Error, "#{self} failed : ENOENT (No such file or directory)"
         end
@@ -81,16 +81,17 @@ module Scripto
       end
 
       def raise!(status)
-        if status.termsig == Signal.list["INT"]
+        if status.termsig == Signal.list['INT']
           raise "#{self} interrupted"
         end
+
         raise Error, "#{self} failed : #{status.to_i / 256}"
       end
 
       def to_s
         if !args.empty?
           escaped = args.map { |i| Shellwords.escape(i) }
-          "#{command} #{escaped.join(" ")}"
+          "#{command} #{escaped.join(' ')}"
         else
           command
         end

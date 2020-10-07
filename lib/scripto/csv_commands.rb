@@ -1,6 +1,6 @@
-require "csv"
-require "tempfile"
-require "zlib"
+require 'csv'
+require 'tempfile'
+require 'zlib'
 
 module Scripto
   module CsvCommands
@@ -13,7 +13,7 @@ module Scripto
             CSV.new(f).read
           end
         else
-          CSV.read(path)
+          CSV.read(path, 'r:bom|utf-8')
         end
       end
       keys = lines.shift.map(&:to_sym)
@@ -27,7 +27,7 @@ module Scripto
     # used as the column keys instead.
     def csv_write(path, rows, cols: nil)
       atomic_write(path) do |tmp|
-        CSV.open(tmp.path, "wb") { |f| csv_write0(f, rows, cols: cols) }
+        CSV.open(tmp.path, 'wb') { |f| csv_write0(f, rows, cols: cols) }
       end
     end
 
@@ -38,7 +38,7 @@ module Scripto
 
     # Returns a string containing +rows+ as a csv. Similar to csv_write.
     def csv_to_s(rows, cols: nil)
-      string = ""
+      string = ''
       f = CSV.new(StringIO.new(string))
       csv_write0(f, rows, cols: cols)
       string

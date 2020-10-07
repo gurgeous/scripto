@@ -1,12 +1,12 @@
-require "fileutils"
-require "minitest/autorun"
-require "minitest/pride"
+require 'fileutils'
+require 'minitest/autorun'
+require 'minitest/pride'
 
-$LOAD_PATH << File.expand_path("../../lib", __FILE__)
-require "scripto"
+$LOAD_PATH << File.expand_path('../lib', __dir__)
+require 'scripto'
 
 module Helper
-  TMP_DIR = "/tmp/_scripto_test"
+  TMP_DIR = '/tmp/_scripto_test'.freeze
 
   # attr_accessor :main
 
