@@ -13,7 +13,12 @@ module Scripto
             CSV.new(f).read
           end
         else
-          CSV.read(path, 'r:bom|utf-8')
+          encoding = 'bom|utf-8'
+          if RUBY_VERSION >= "2.6.0"
+            CSV.read(path, encoding: encoding)
+          else
+            CSV.read(path, "r:#{encoding}")
+          end
         end
       end
       keys = lines.shift.map(&:to_sym)
