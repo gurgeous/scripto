@@ -15,7 +15,7 @@ module Scripto
     # will be run directly without the shell.
     def run(command, args = nil)
       cmd = CommandLine.new(command, args)
-      vputs(cmd)
+      puts(cmd) if verbose?
       cmd.run
     end
 

@@ -44,7 +44,7 @@ require "scripto"
 
 class Install < Scripto::Main
   def initialize(options = {})
-    verbose! if options[:verbose]
+    super
 
     banner("Starting installation...")
     cp("here.txt", "there.txt")
@@ -70,15 +70,16 @@ Install.new(verbose: true)
 
 ### Printing
 
+Scripto has a built-in logger that wraps $stdout. The logger runs in INFO mode
+by default, but will switch to DEBUG if options[:verbose] is true. Or you can
+quiet it down to ERROR if options[:quiet] is true. `banner`, `warning` and
+`fatal` use Scripto's logger.
+
 ```
 banner(str)  - print a banner in green
 warning(str) - print a warning in yellow
 fatal(str)   - print a fatal error in red, then exit(1)
-
-verbose!     - turn on verbose mode
-vbanner(str) - print a colored banner in green if verbose is on
-vprintf(str) - printf if verbose is on
-vputs(str)   - puts if verbose is on
+verbose!     - force verbose
 ```
 
 ### File operations
@@ -159,12 +160,10 @@ random_string(len) - calculate a random alphanumeric string
 
 1.0.0 (unreleased)
 
- - `banner` writes to $stdout instead of $stderr (breaking)
- - only support Ruby 3.1+ (breaking)
- - `banner` only adds color if tty
- - [standardrb](https://github.com/testdouble/standard) & [just](https://github.com/casey/just)
- - update deps
- - switch to github actions
+- banner and friends use Logger (breaking)
+- only support Ruby 3.1+ (breaking)
+- [standardrb](https://github.com/testdouble/standard) and a [justfile](https://github.com/casey/just)
+- update deps, switch to Github actions, etc.
 
 0.0.4 (late 2020)
 

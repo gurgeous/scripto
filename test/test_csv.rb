@@ -1,4 +1,5 @@
 require_relative "helper"
+require "ostruct"
 
 class TestCsv < Minitest::Test
   include Helper
@@ -42,7 +43,7 @@ class TestCsv < Minitest::Test
   end
 
   def test_gz_with_bom
-    skip # this doesn't work yet
+    skip # this doesn't work yet, maybe someday
     path = write_bom
     Scripto.run("gzip #{path}")
     assert_equal("apple", Scripto.csv_read("#{path}.gz").first.fruit)
@@ -52,11 +53,11 @@ class TestCsv < Minitest::Test
 
   def structs
     klass = Struct.new(*ROWS.first.keys)
-    ROWS.map { |i| klass.new(*i.values) }
+    ROWS.map { klass.new(*_1.values) }
   end
 
   def ostructs
-    ROWS.map { |i| OpenStruct.new(i) }
+    ROWS.map { OpenStruct.new(_1) }
   end
 
   def write_bom
