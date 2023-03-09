@@ -1,33 +1,48 @@
+
+version := `cat lib/scripto/version.rb | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+"`
+
 #
 # dev
 #
 
-test:
-  rake test
+default: test
 
-lint:
-  bundle exec rubocop
+check: lint test
 
 fmt:
   bundle exec rubocop -a
 
+lint:
+  @just banner lint...
+  bundle exec rubocop
+
 pry:
   pry -I lib -r scripto.rb
 
-check: lint test
+test:
+  @just banner test...
+  rake test
 
+
+#
 # gem tasks
-gem-build:
-  gem build --quiet scripto.gemspec
+#
 
-# task install: :build do
-#   sh "gem install --quiet scripto-#{spec.version}.gem"
-# end
+gem-push: check-git-status
+  @just banner gem build...
+  gem build scripto.gemspec
+  @just banner tag...
+  #git tag -a "v{{version}}" -m "Tagging {{version}}"
+  #git push --tags
+  @just banner gem push...
+  #gem push "scripto-{{version}}.gem"
 
-# task release: %i[rubocop test build] do
-#   raise "looks like git isn't clean" unless `git status --porcelain`.empty?
+#
+# util
+#
 
-#   sh "git tag -a #{spec.version} -m 'Tagging #{spec.version}'"
-#   sh 'git push --tags'
-#   sh "gem push scripto-#{spec.version}.gem"
-# end
+banner *ARGS:
+  @printf '\e[42;37;1m[%s] %-72s \e[m\n' "$(date +%H:%M:%S)" "{{ARGS}}"
+
+check-git-status:
+  @if [ ! -z "$(git status --porcelain)" ]; then echo "git status is dirty, bailing."; exit 1; fi
