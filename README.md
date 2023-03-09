@@ -1,3 +1,8 @@
+
+[![Build Status](https://github.com/gurgeous/scripto/actions/workflows/ci.yml/badge.svg)](https://github.com/gurgeous/scripto/actions/workflows/ci.yml)
+
+![logo](logo.svg)
+
 # Scripto
 
 Scripto is a framework for writing Ruby command line applications. It fills in many of the blanks that Ruby's standard library is missing:
@@ -152,13 +157,12 @@ random_string(len) - calculate a random alphanumeric string
 
 # Changelog
 
-1.0.0 (unreleased, early 2023)
+1.0.0 (unreleased)
 
- - banner writes to $stdout instead of $stderr (breaking)
+ - `banner` writes to $stdout instead of $stderr (breaking)
  - only support Ruby 3.1+ (breaking)
- - banner only adds color if tty
- - adopt [standardrb](https://github.com/testdouble/standard)
- - use [just](https://github.com/casey/just)
+ - `banner` only adds color if tty
+ - [standardrb](https://github.com/testdouble/standard) & [just](https://github.com/casey/just)
  - update deps
  - switch to github actions
 
