@@ -1,5 +1,6 @@
 
-version := `cat lib/scripto/version.rb | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+"`
+# read gem version
+gemver := `cat lib/scripto/version.rb | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+"`
 
 #
 # dev
@@ -17,12 +18,11 @@ lint:
   bundle exec rubocop
 
 pry:
-  pry -I lib -r scripto.rb
+  bundle exec pry -I lib -r scripto.rb
 
 test:
   @just banner test...
-  rake test
-
+  bundle exec rake test
 
 #
 # gem tasks
@@ -32,10 +32,10 @@ gem-push: check-git-status
   @just banner gem build...
   gem build scripto.gemspec
   @just banner tag...
-  #git tag -a "v{{version}}" -m "Tagging {{version}}"
+  #git tag -a "v{{gemver}}" -m "Tagging {{gemver}}"
   #git push --tags
   @just banner gem push...
-  #gem push "scripto-{{version}}.gem"
+  #gem push "scripto-{{gemver}}.gem"
 
 #
 # util

@@ -5,6 +5,8 @@ inherit_gem:
   standard: config/base.yml
 
 AllCops:
+  Exclude:
+    - vendor/**/* # for ci - https://github.com/rubocop/rubocop/issues/9832
   NewCops: enable
   SuggestExtensions: false
   TargetRubyVersion: 3.1
