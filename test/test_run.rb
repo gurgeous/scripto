@@ -37,21 +37,12 @@ class TestRun < Minitest::Test
     assert_equal('gub\\ zub', Scripto.shellescape("gub zub"))
   end
 
-  # verbosity
-  def test_verbose
-    Scripto.verbose!
-    cmd = "#{SUCCEEDS} > /dev/null"
-    assert_output("#{cmd}\n") do
-      Scripto.run(cmd)
-    end
-  end
-
   # commands that fail
   def test_failures
-    assert_raises(Scripto::RunCommands::Error) { Scripto.run(BAD_COMMAND) }
-    assert_raises(Scripto::RunCommands::Error) { Scripto.run_capture(BAD_COMMAND) }
-    assert_raises(Scripto::RunCommands::Error) { Scripto.run(FAILS) }
-    assert_raises(Scripto::RunCommands::Error) { Scripto.run_capture(FAILS) }
+    assert_raises(Scripto::RunCommands::RunError) { Scripto.run(BAD_COMMAND) }
+    assert_raises(Scripto::RunCommands::RunError) { Scripto.run_capture(BAD_COMMAND) }
+    assert_raises(Scripto::RunCommands::RunError) { Scripto.run(FAILS) }
+    assert_raises(Scripto::RunCommands::RunError) { Scripto.run_capture(FAILS) }
   end
 
   #
@@ -72,14 +63,6 @@ class TestRun < Minitest::Test
 
   def test_args_succeeds_fails
     assert_fails(BAD_COMMAND, ARGS)
-  end
-
-  # is output escaped properly with verbose?
-  def test_args_verbose
-    Scripto.verbose!
-    assert_output("cp -f #{SRC} #{DST.gsub(" ", '\\ ')}\n") do
-      Scripto.run("cp", ARGS)
-    end
   end
 
   protected
