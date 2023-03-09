@@ -1,5 +1,5 @@
-require 'etc'
-require 'fileutils'
+require "etc"
+require "fileutils"
 
 module Scripto
   module FileCommands
@@ -55,7 +55,7 @@ module Scripto
     def mkdir_if_necessary(dir, owner: nil, mode: nil)
       return if File.exist?(dir) || File.symlink?(dir)
 
-      mkdir(dir, owner: owner, mode: mode)
+      mkdir(dir, owner:, mode:)
       true
     end
 
@@ -65,7 +65,7 @@ module Scripto
     def cp_if_necessary(src, dst, mkdir: false, owner: nil, mode: nil)
       return if File.exist?(dst) && FileUtils.compare_file(src, dst)
 
-      cp(src, dst, mkdir: mkdir, owner: owner, mode: mode)
+      cp(src, dst, mkdir:, owner:, mode:)
       true
     end
 
@@ -115,7 +115,7 @@ module Scripto
     # Like rm -rf && mkdir -p. Like all file commands, the operation will be
     # printed out if verbose?.
     def rm_and_mkdir(dir)
-      raise "don't do this" if dir == ''
+      raise "don't do this" if dir == ""
 
       FileUtils.rm_rf(dir, verbose: verbose?)
       mkdir(dir)

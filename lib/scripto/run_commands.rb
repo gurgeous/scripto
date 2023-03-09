@@ -1,22 +1,20 @@
-require 'English'
-require 'shellwords'
+require "English"
+require "shellwords"
 
 module Scripto
   module RunCommands
     # The error thrown by #run, #run_capture and #run_quietly on failure.
-    class Error < StandardError
+    class RunError < StandardError
     end
 
-    # Run an external command. Raise Error if something goes wrong. The
+    # Run an external command. Raise RunError if something goes wrong. The
     # command will be echoed if verbose?.
     #
     # Usage is similar to Kernel#system. If +args+ is nil, +command+ will be
-    # passed to the shell. If +args+ are included, the +command+ and +args+
-    # will be run directly without the shell.
+    # passed to the shell. If +args+ are included, the +command+ and +args+ will
+    # be run directly without the shell.
     def run(command, args = nil)
-      cmd = CommandLine.new(command, args)
-      vputs(cmd)
-      cmd.run
+      CommandLine.new(command, args).run
     end
 
     # Run a command and capture the output like backticks. See #run
@@ -36,7 +34,7 @@ module Scripto
     def run_succeeds?(command, args = nil)
       run_quietly(command, args)
       true
-    rescue Error
+    rescue RunError
       false
     end
 
@@ -74,24 +72,24 @@ module Scripto
         begin
           captured = `#{self}`
         rescue Errno::ENOENT
-          raise Error, "#{self} failed : ENOENT (No such file or directory)"
+          raise RunError, "#{self} failed : ENOENT (No such file or directory)"
         end
         raise!($CHILD_STATUS) if $CHILD_STATUS != 0
         captured
       end
 
       def raise!(status)
-        if status.termsig == Signal.list['INT']
+        if status.termsig == Signal.list["INT"]
           raise "#{self} interrupted"
         end
 
-        raise Error, "#{self} failed : #{status.to_i / 256}"
+        raise RunError, "#{self} failed : #{status.to_i / 256}"
       end
 
       def to_s
         if !args.empty?
-          escaped = args.map { |i| Shellwords.escape(i) }
-          "#{command} #{escaped.join(' ')}"
+          escaped = args.map { Shellwords.escape(_1) }
+          "#{command} #{escaped.join(" ")}"
         else
           command
         end

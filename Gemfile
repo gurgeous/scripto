@@ -1,4 +1,12 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-# Specify your gem's dependencies in scripto.gemspec
 gemspec
+
+group :development, :test do
+  gem "minitest"
+  gem "mocha"
+  gem "pry", require: false
+  gem "rake", require: false
+  gem "ruby-lsp", require: false
+  gem "standard", require: false
+end

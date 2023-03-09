@@ -1,25 +1,19 @@
-lib = File.expand_path('lib', __dir__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'scripto/version'
+require "scripto/version"
 
-Gem::Specification.new do |spec|
-  spec.name          = 'scripto'
-  spec.version       = Scripto::VERSION
-  spec.platform      = Gem::Platform::RUBY
-  spec.required_ruby_version = '>= 2.0.0'
-  spec.authors       = [ 'Adam Doppelt' ]
-  spec.email         = [ 'amd@gurge.com' ]
-  spec.summary       = 'Helpers for writing command line scripts. An extraction from Dwellable.'
-  spec.homepage      = 'http://github.com/gurgeous/scripto'
-  spec.license       = 'MIT'
+Gem::Specification.new do |s|
+  s.name = "scripto"
+  s.version = Scripto::VERSION
+  s.authors = ["Adam Doppelt"]
+  s.email = ["amd@gurge.com"]
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = [ 'lib' ]
+  s.summary = "Helpers for writing command line scripts. An extraction from Dwellable."
+  s.homepage = "http://github.com/gurgeous/scripto"
+  s.license = "MIT"
+  s.required_ruby_version = ">= 3.1.0"
 
-  spec.add_development_dependency 'bundler', '~> 2.1'
-  spec.add_development_dependency 'minitest', '~> 5.14'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rubocop'
+  # what's in the gem?
+  s.files = `git ls-files -z`.split("\x0").reject { _1.match(%r{^test/}) }
+  s.require_paths = ["lib"]
 end

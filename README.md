@@ -1,15 +1,16 @@
+
+[![Build Status](https://github.com/gurgeous/scripto/actions/workflows/ci.yml/badge.svg)](https://github.com/gurgeous/scripto/actions/workflows/ci.yml)
+
+![logo](logo.svg)
+
 # Scripto
 
-[![Build Status](https://travis-ci.org/gurgeous/scripto.svg?branch=master)](https://travis-ci.org/gurgeous/scripto)
+Scripto is a framework for writing Ruby command line applications. It fills in many of the blanks that Ruby's standard library is missing:
 
-Scripto is a framework for writing command line applications. It fills in many of the blanks that Ruby's standard library is missing:
-
-- **print to \$stderr** - Colored banners and a verbose mode to make your scripts louder.
+- **printing** - Colored banners and a verbose mode to make your scripts louder.
 - **file operations** - Mkdir, cp, mv, ln. These operations can take care of common edge cases, like creating the target directory before copying a file.
 - **run commands** - Run external commands and raise errors on failure.
 - **csv** - Read and write CSV files from hashes, Structs, or OpenStructs.
-
-Rdoc at [rdoc.info](http://rdoc.info/github/gurgeous/scripto/). Thanks!
 
 ## Getting Started
 
@@ -43,7 +44,7 @@ require "scripto"
 
 class Install < Scripto::Main
   def initialize(options = {})
-    verbose! if options[:verbose]
+    super
 
     banner("Starting installation...")
     cp("here.txt", "there.txt")
@@ -67,17 +68,18 @@ Install.new(verbose: true)
 
 ## Methods
 
-### Print to \$stderr
+### Printing
+
+Scripto has a built-in logger that wraps $stdout. The logger runs in INFO mode
+by default, but will switch to DEBUG if options[:verbose] is true. Or you can
+quiet it down to ERROR if options[:quiet] is true. `banner`, `warning` and
+`fatal` use Scripto's logger.
 
 ```
 banner(str)  - print a banner in green
 warning(str) - print a warning in yellow
 fatal(str)   - print a fatal error in red, then exit(1)
-
-verbose!     - turn on verbose mode
-vbanner(str) - print a colored banner in green if verbose is on
-vprintf(str) - printf if verbose is on
-vputs(str)   - puts if verbose is on
+verbose!     - force verbose
 ```
 
 ### File operations
@@ -155,6 +157,13 @@ random_string(len) - calculate a random alphanumeric string
 ```
 
 # Changelog
+
+1.0.0 (unreleased)
+
+- banner and friends use Logger (breaking)
+- only support Ruby 3.1+ (breaking)
+- [standardrb](https://github.com/testdouble/standard) and a [justfile](https://github.com/casey/just)
+- update deps, switch to Github actions, etc.
 
 0.0.4 (late 2020)
 
