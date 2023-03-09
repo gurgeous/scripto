@@ -4,8 +4,8 @@ module Scripto
   class Main
     include CsvCommands
     include FileCommands
-    include MiscCommands
     include LogCommands
+    include MiscCommands
     include RunCommands
 
     def initialize(options = {})
