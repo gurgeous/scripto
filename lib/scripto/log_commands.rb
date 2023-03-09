@@ -15,7 +15,7 @@ module Scripto
     # wrapped around $stdout. Used by banner/warning/fatal.
     def logger
       @logger ||= begin
-        self.log_with_color = $stdout.tty?
+        self.log_with_color = $stdout.tty? if !defined?(@log_with_color)
         level = if options[:verbose]
           Logger::DEBUG
         elsif options[:quiet]
