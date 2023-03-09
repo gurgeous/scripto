@@ -1,6 +1,5 @@
-check: lint test
-
-ci: check
+test:
+  rake test
 
 lint:
   bundle exec rubocop
@@ -8,5 +7,4 @@ lint:
 fmt:
   bundle exec rubocop -a
 
-test:
-  rake test
+check: lint test

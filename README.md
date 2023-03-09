@@ -1,15 +1,11 @@
 # Scripto
 
-[![Build Status](https://travis-ci.org/gurgeous/scripto.svg?branch=master)](https://travis-ci.org/gurgeous/scripto)
+Scripto is a framework for writing Ruby command line applications. It fills in many of the blanks that Ruby's standard library is missing:
 
-Scripto is a framework for writing command line applications. It fills in many of the blanks that Ruby's standard library is missing:
-
-- **print to \$stderr** - Colored banners and a verbose mode to make your scripts louder.
+- **printing** - Colored banners and a verbose mode to make your scripts louder.
 - **file operations** - Mkdir, cp, mv, ln. These operations can take care of common edge cases, like creating the target directory before copying a file.
 - **run commands** - Run external commands and raise errors on failure.
 - **csv** - Read and write CSV files from hashes, Structs, or OpenStructs.
-
-Rdoc at [rdoc.info](http://rdoc.info/github/gurgeous/scripto/). Thanks!
 
 ## Getting Started
 
@@ -67,7 +63,7 @@ Install.new(verbose: true)
 
 ## Methods
 
-### Print to \$stderr
+### Printing
 
 ```
 banner(str)  - print a banner in green
@@ -155,6 +151,16 @@ random_string(len) - calculate a random alphanumeric string
 ```
 
 # Changelog
+
+1.0.0 (unreleased, early 2023)
+
+ - banner writes to $stdout instead of $stderr (breaking)
+ - only support Ruby 3.1+ (breaking)
+ - banner only adds color if tty
+ - adopt [standardrb](https://github.com/testdouble/standard)
+ - use [just](https://github.com/casey/just)
+ - update deps
+ - switch to github actions
 
 0.0.4 (late 2020)
 
