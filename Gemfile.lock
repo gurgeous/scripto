@@ -12,6 +12,8 @@ GEM
     language_server-protocol (3.17.0.3)
     method_source (1.0.0)
     minitest (5.18.0)
+    mocha (2.0.2)
+      ruby2_keywords (>= 0.0.5)
     parallel (1.22.1)
     parser (3.2.1.1)
       ast (~> 2.4.1)
@@ -43,6 +45,7 @@ GEM
       sorbet-runtime
       syntax_tree (>= 6, < 7)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     sorbet-runtime (0.5.10705)
     standard (1.24.3)
       language_server-protocol (~> 3.17.0.2)
@@ -54,10 +57,12 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  arm64-darwin-21
   x86_64-linux
 
 DEPENDENCIES
   minitest
+  mocha
   pry
   rake
   ruby-lsp

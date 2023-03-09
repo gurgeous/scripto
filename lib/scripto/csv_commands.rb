@@ -7,7 +7,7 @@ module Scripto
     # Read a csv from +path+. Returns an array of Structs, using the keys from
     # the csv header row.
     def csv_read(path)
-      lines = if /\.gz$/.match?(path)
+      rows = if /\.gz$/.match?(path)
         Zlib::GzipReader.open(path) do
           CSV.new(_1).read
         end
@@ -15,9 +15,9 @@ module Scripto
         CSV.read(path, encoding: "bom|utf-8")
       end
 
-      keys = lines.shift.map(&:to_sym)
+      keys = rows.shift.map(&:to_sym)
       klass = Struct.new(*keys)
-      lines.map { klass.new(*_1) }
+      rows.map { klass.new(*_1) }
     end
 
     # Write +rows+ to +path+ as csv. Rows can be an array of hashes, Structs,

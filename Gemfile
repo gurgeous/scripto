@@ -4,8 +4,9 @@ gemspec
 
 group :development, :test do
   gem "minitest"
-  gem "pry"
-  gem "rake"
-  gem "ruby-lsp"
-  gem "standard"
+  gem "mocha"
+  gem "pry", require: false
+  gem "rake", require: false
+  gem "ruby-lsp", require: false
+  gem "standard", require: false
 end

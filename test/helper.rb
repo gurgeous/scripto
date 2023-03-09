@@ -1,7 +1,7 @@
 require "fileutils"
 require "minitest/autorun"
 require "minitest/pride"
-require "ostruct"
+require "mocha/minitest"
 
 $LOAD_PATH << File.expand_path("../lib", __dir__)
 require "scripto"
@@ -14,11 +14,21 @@ module Helper
     FileUtils.mkdir_p(TMP_DIR)
     @pwd = Dir.pwd
     Dir.chdir(TMP_DIR)
-    Scripto.verbose = false
+    Scripto.logger.level = Logger::INFO
   end
 
   def teardown
     FileUtils.rm_rf(TMP_DIR)
     Dir.chdir(@pwd)
+    reset_scripto
+  end
+
+  def reset_scripto
+    %i[log_with_color logger options].each do
+      sym = :"@#{_1}"
+      if Scripto.instance_variable_defined?(sym)
+        Scripto.remove_instance_variable(sym)
+      end
+    end
   end
 end
