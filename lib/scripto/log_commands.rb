@@ -15,7 +15,6 @@ module Scripto
     # wrapped around $stdout. Used by banner/warning/fatal.
     def logger
       @logger ||= begin
-        self.log_with_color = $stdout.tty? if !defined?(@log_with_color)
         level = if options[:verbose]
           Logger::DEBUG
         elsif options[:quiet]
@@ -30,6 +29,7 @@ module Scripto
     # Set the built-in logger.
     def logger=(value)
       @logger = value
+      @log_with_color = false
     end
 
     #
@@ -69,7 +69,7 @@ module Scripto
     # Should we use color? Inferred from $stdout.tty? if not set.
     def log_with_color?
       return @log_with_color if defined?(@log_with_color)
-      false
+      $stdout.tty?
     end
 
     # Set whether we should use color.
