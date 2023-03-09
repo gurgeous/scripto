@@ -1,11 +1,11 @@
-require_relative 'helper'
+require_relative "helper"
 
 class TestCsv < Minitest::Test
   include Helper
 
-  FILE = 'test.csv'.freeze
+  FILE = "test.csv".freeze
 
-  ROWS = [ { a: '1', b: '2', c: '3' }, { a: '4', b: '5', c: '6' } ].freeze
+  ROWS = [{a: "1", b: "2", c: "3"}, {a: "4", b: "5", c: "6"}].freeze
   ROWS_EXP = "a,b,c\n1,2,3\n4,5,6\n".freeze
   ROWS_REVERSED_EXP = "c,b,a\n3,2,1\n6,5,4\n".freeze
 
@@ -16,8 +16,8 @@ class TestCsv < Minitest::Test
   end
 
   def test_cols
-    assert_equal(ROWS_REVERSED_EXP, Scripto.csv_to_s(ROWS,     cols: %i[c b a]))
-    assert_equal(ROWS_REVERSED_EXP, Scripto.csv_to_s(structs,  cols: %i[c b a]))
+    assert_equal(ROWS_REVERSED_EXP, Scripto.csv_to_s(ROWS, cols: %i[c b a]))
+    assert_equal(ROWS_REVERSED_EXP, Scripto.csv_to_s(structs, cols: %i[c b a]))
     assert_equal(ROWS_REVERSED_EXP, Scripto.csv_to_s(ostructs, cols: %i[c b a]))
   end
 
@@ -38,14 +38,14 @@ class TestCsv < Minitest::Test
   end
 
   def test_bom
-    assert_equal('apple', Scripto.csv_read(write_bom).first.fruit)
+    assert_equal("apple", Scripto.csv_read(write_bom).first.fruit)
   end
 
   def test_gz_with_bom
     skip # this doesn't work yet
     path = write_bom
     Scripto.run("gzip #{path}")
-    assert_equal('apple', Scripto.csv_read("#{path}.gz").first.fruit)
+    assert_equal("apple", Scripto.csv_read("#{path}.gz").first.fruit)
   end
 
   protected
@@ -60,7 +60,7 @@ class TestCsv < Minitest::Test
   end
 
   def write_bom
-    CSV.open(FILE, 'w') do |csv|
+    CSV.open(FILE, "w") do |csv|
       csv.to_io.write "\uFEFF" # bom
       csv << %w[fruit]
       csv << %w[apple]

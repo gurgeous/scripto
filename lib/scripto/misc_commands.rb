@@ -1,9 +1,9 @@
-require 'digest/md5'
-require 'etc'
+require "digest/md5"
+require "etc"
 
 module Scripto
   module MiscCommands
-    BASE_62 = ('0'..'9').to_a + ('A'..'Z').to_a + ('a'..'z').to_a
+    BASE_62 = ("0".."9").to_a + ("A".."Z").to_a + ("a".."z").to_a
 
     # Who is the current user?
     def whoami
@@ -12,14 +12,14 @@ module Scripto
 
     # Return true if the current user is "root".
     def root?
-      whoami == 'root'
+      whoami == "root"
     end
 
     # Return the md5 checksum for the file at +path+.
     def md5_file(path)
-      File.open(path) do |f|
-        digest, buf = Digest::MD5.new, ''
-        digest.update(buf) while f.read(4096, buf)
+      File.open(path) do
+        digest, buf = Digest::MD5.new, ""
+        digest.update(buf) while _1.read(4096, buf)
         digest.hexdigest
       end
     end

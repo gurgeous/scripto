@@ -1,17 +1,15 @@
-require 'fileutils'
-require 'minitest/autorun'
-require 'minitest/pride'
+require "fileutils"
+require "minitest/autorun"
+require "minitest/pride"
+require "ostruct"
 
-$LOAD_PATH << File.expand_path('../lib', __dir__)
-require 'scripto'
+$LOAD_PATH << File.expand_path("../lib", __dir__)
+require "scripto"
 
 module Helper
-  TMP_DIR = '/tmp/_scripto_test'.freeze
-
-  # attr_accessor :main
+  TMP_DIR = "/tmp/_scripto_test".freeze
 
   def setup
-    # self.main = Scripto::Main.new
     FileUtils.rm_rf(TMP_DIR)
     FileUtils.mkdir_p(TMP_DIR)
     @pwd = Dir.pwd

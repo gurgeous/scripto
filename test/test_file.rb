@@ -1,16 +1,16 @@
-require_relative 'helper'
+require_relative "helper"
 
 class TestFile < Minitest::Test
   include Helper
 
-  DIR = 'dir'.freeze
-  SRC, DST = 'src.txt', 'dst.txt'
-  SRC2, DST2 = 'src2.txt', 'dst2.txt'
+  DIR = "dir".freeze
+  SRC, DST = "src.txt", "dst.txt"
+  SRC2, DST2 = "src2.txt", "dst2.txt"
 
   def setup
     super
-    File.write(SRC, 'something')
-    File.write(SRC2, 'another thing')
+    File.write(SRC, "something")
+    File.write(SRC2, "another thing")
   end
 
   #
@@ -45,13 +45,13 @@ class TestFile < Minitest::Test
 
   def test_mv
     Scripto.mv(SRC, DST)
-    assert_equal('something', File.read(DST))
+    assert_equal("something", File.read(DST))
   end
 
   def test_mv_mkdir
     in_dir = "#{DIR}/in_dir"
     Scripto.mv(SRC, in_dir, mkdir: true)
-    assert_equal('something', File.read(in_dir))
+    assert_equal("something", File.read(in_dir))
   end
 
   def test_ln
@@ -62,7 +62,7 @@ class TestFile < Minitest::Test
   def test_rm
     Scripto.rm(SRC)
     assert(!File.exist?(SRC))
-    Scripto.rm('this_file_doesnt_exist') # shouldn't complain
+    Scripto.rm("this_file_doesnt_exist") # shouldn't complain
   end
 
   #
@@ -80,7 +80,7 @@ class TestFile < Minitest::Test
     assert_equal(SRC, File.readlink(DST2))
 
     # should be silent
-    assert_fu_output(nil, '') do
+    assert_fu_output(nil, "") do
       assert_nil Scripto.mkdir_if_necessary(DIR)
       assert_nil Scripto.cp_if_necessary(SRC, DST)
       assert_nil Scripto.ln_if_necessary(SRC, DST2)
@@ -88,7 +88,7 @@ class TestFile < Minitest::Test
   end
 
   def test_cp_if_necessary_differs
-    File.write(DST, 'this is different')
+    File.write(DST, "this is different")
     assert_fu_output(nil, "cp -rp #{SRC} #{DST}\n") do
       assert Scripto.cp_if_necessary(SRC, DST)
     end
@@ -109,7 +109,7 @@ class TestFile < Minitest::Test
 
   def test_rm_and_mkdir
     Dir.mkdir(DIR)
-    File.write("#{DIR}/file", 'this is a test')
+    File.write("#{DIR}/file", "this is a test")
     assert Dir["#{DIR}/*"].length == 1
     Scripto.rm_and_mkdir(DIR)
     assert Dir["#{DIR}/*"].empty?
@@ -130,20 +130,20 @@ class TestFile < Minitest::Test
 
   def test_mkdir_owner
     skip if !root?
-    Scripto.mkdir(DIR, owner: 'nobody')
-    assert(Etc.getpwnam('nobody').uid, File.stat(DIR).uid)
+    Scripto.mkdir(DIR, owner: "nobody")
+    assert(Etc.getpwnam("nobody").uid, File.stat(DIR).uid)
   end
 
   def test_cp_owner
     skip if !root?
-    Scripto.cp(SRC, DST, owner: 'nobody')
-    assert(Etc.getpwnam('nobody').uid, File.stat(DST).uid)
+    Scripto.cp(SRC, DST, owner: "nobody")
+    assert(Etc.getpwnam("nobody").uid, File.stat(DST).uid)
   end
 
   def test_chown
     skip if !root?
-    Scripto.chown(SRC, 'nobody')
-    assert(Etc.getpwnam('nobody').uid, File.stat(SRC).uid)
+    Scripto.chown(SRC, "nobody")
+    assert(Etc.getpwnam("nobody").uid, File.stat(SRC).uid)
   end
 
   #
@@ -151,19 +151,19 @@ class TestFile < Minitest::Test
   #
 
   def test_atomic
-    Scripto.atomic_write(SRC) { |f| f.write('xyzzy') }
-    assert_equal 'xyzzy', File.read(SRC)
+    Scripto.atomic_write(SRC) { |f| f.write("xyzzy") }
+    assert_equal "xyzzy", File.read(SRC)
   end
 
   def test_atomic_fail
     assert_raises do
       Scripto.atomic_write(SRC) do |f|
-        f.write('xyzzy')
-        raise 'uh oh'
+        f.write("xyzzy")
+        raise "uh oh"
       end
     end
     # SRC should be unscathed
-    assert_equal 'something', File.read(SRC)
+    assert_equal "something", File.read(SRC)
   end
 
   #
@@ -204,7 +204,7 @@ class TestFile < Minitest::Test
 
   def root?
     if !defined?(@root)
-      @root = `whoami`.strip == 'root'
+      @root = `whoami`.strip == "root"
     end
     @root
   end
@@ -213,7 +213,7 @@ class TestFile < Minitest::Test
     Scripto.verbose!
     assert_output(stdout, stderr) do
       # FileUtils squirrels this away so we have to set it manually
-      FileUtils.instance_eval('@fileutils_output = $stderr')
+      FileUtils.instance_eval("@fileutils_output = $stderr", __FILE__, __LINE__)
       yield
     end
   end

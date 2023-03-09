@@ -1,5 +1,5 @@
-require 'English'
-require 'shellwords'
+require "english"
+require "shellwords"
 
 module Scripto
   module RunCommands
@@ -81,7 +81,7 @@ module Scripto
       end
 
       def raise!(status)
-        if status.termsig == Signal.list['INT']
+        if status.termsig == Signal.list["INT"]
           raise "#{self} interrupted"
         end
 
@@ -90,8 +90,8 @@ module Scripto
 
       def to_s
         if !args.empty?
-          escaped = args.map { |i| Shellwords.escape(i) }
-          "#{command} #{escaped.join(' ')}"
+          escaped = args.map { Shellwords.escape(_1) }
+          "#{command} #{escaped.join(" ")}"
         else
           command
         end
