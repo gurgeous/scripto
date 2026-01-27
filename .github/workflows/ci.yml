@@ -3,17 +3,17 @@ name: ci
 on:
   push:
     paths-ignore:
-      - '**.md'
+      - "**.md"
   workflow_dispatch:
 
 jobs:
   test:
     strategy:
       matrix:
-        ruby-version: [3.2, 3.1]
+        ruby-version: [3.4]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: taiki-e/install-action@just
       - uses: ruby/setup-ruby@v1
         with:
