@@ -2,10 +2,11 @@ require "logger"
 
 module Scripto
   module LogCommands
-    RESET = "\e[0m".freeze
-    GREEN = "\e[1;37;42m".freeze
-    YELLOW = "\e[1;37;43m".freeze
-    RED = "\e[1;37;41m".freeze
+    # https://catppuccin.com/palette/
+    RESET = "\e[0m"
+    GREEN = "\e[1;38;2;255;255;255;48;2;64;160;43m"
+    YELLOW = "\e[1;38;2;255;255;255;48;2;251;100;11m"
+    RED = "\e[1;38;2;255;255;255;48;2;210;15;57m"
 
     #
     # logger

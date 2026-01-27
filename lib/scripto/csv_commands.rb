@@ -37,10 +37,10 @@ module Scripto
 
     # Returns a string containing +rows+ as a csv. Similar to csv_write.
     def csv_to_s(rows, cols: nil)
-      "".tap do
-        f = CSV.new(StringIO.new(_1))
+      StringIO.new.tap do
+        f = CSV.new(_1)
         csv_write0(f, rows, cols:)
-      end
+      end.string
     end
 
     protected
