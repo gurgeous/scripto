@@ -11,9 +11,13 @@ Gem::Specification.new do |s|
   s.summary = "Helpers for writing command line scripts. An extraction from Dwellable."
   s.homepage = "http://github.com/gurgeous/scripto"
   s.license = "MIT"
-  s.required_ruby_version = ">= 3.1.0"
+  s.required_ruby_version = ">= 3.4.0"
 
   # what's in the gem?
   s.files = `git ls-files -z`.split("\x0").reject { _1.match(%r{^test/}) }
   s.require_paths = ["lib"]
+
+  # gem dependencies
+  s.add_dependency "csv", "~> 3.3" # required for 3.4
+  s.add_dependency "ostruct", "~> 0.0" # required for 3.4
 end

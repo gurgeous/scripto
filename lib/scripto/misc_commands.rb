@@ -17,11 +17,7 @@ module Scripto
 
     # Return the md5 checksum for the file at +path+.
     def md5_file(path)
-      File.open(path) do
-        digest, buf = Digest::MD5.new, ""
-        digest.update(buf) while _1.read(4096, buf)
-        digest.hexdigest
-      end
+      Digest::MD5.file(path).hexdigest
     end
 
     # Return the md5 checksum for +str+.
