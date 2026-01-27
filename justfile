@@ -37,10 +37,10 @@ gem-push: check-git-status
   just banner gem build...
   gem build scripto.gemspec
   just banner tag...
-  #git tag -a "v{{gemver}}" -m "Tagging {{gemver}}"
-  #git push --tags
+  git tag -a "v{{gemver}}" -m "Tagging {{gemver}}"
+  git push --tags
   just banner gem push...
-  #gem push "scripto-{{gemver}}.gem"
+  gem push "scripto-{{gemver}}.gem"
 
 #
 # util

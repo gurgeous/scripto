@@ -1,4 +1,3 @@
-
 [![Build Status](https://github.com/gurgeous/scripto/actions/workflows/ci.yml/badge.svg)](https://github.com/gurgeous/scripto/actions/workflows/ci.yml)
 
 ![logo](logo.svg)
@@ -158,14 +157,14 @@ random_string(len) - calculate a random alphanumeric string
 
 # Changelog
 
-1.0.0 (unreleased)
+### 1.0.0 (early 2026)
 
 - banner and friends use Logger (breaking)
-- only support Ruby 3.1+ (breaking)
+- only support Ruby 3.4+ (breaking)
 - [standardrb](https://github.com/testdouble/standard) and a [justfile](https://github.com/casey/just)
 - update deps, switch to Github actions, etc.
 
-0.0.4 (late 2020)
+### 0.0.4 (late 2020)
 
 - Added support for reading CSV with BOM.
 - Only support Ruby 2.3+, since we moved to modern Bundler
